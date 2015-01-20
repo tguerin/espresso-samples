@@ -25,7 +25,6 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -46,9 +45,10 @@ public class SamplesTest extends ActivityInstrumentationTestCase2<LoginActivity>
     }
 
     @Override
-    public void setUp() throws Exception {
+    protected void setUp() throws Exception {
         super.setUp();
         getActivity();
+        TestUtils.injectPicturesApi();
     }
 
     public void testEspressoFeatures() throws Exception {
@@ -61,7 +61,6 @@ public class SamplesTest extends ActivityInstrumentationTestCase2<LoginActivity>
         onData(withPictureTitle(is("Landscape 1")))
                 .inAdapterView(withId(R.id.pictures_grid_view))
                 .onChildView(withText("Landscape 1"))
-                .check(matches(isCompletelyDisplayed()))
                 .perform(click());
 
         Spoon.screenshot(getCurrentActivity(), "scoll");
@@ -79,7 +78,6 @@ public class SamplesTest extends ActivityInstrumentationTestCase2<LoginActivity>
         onData(withPictureTitle(is("Kittens 3")))
                 .inAdapterView(withId(R.id.pictures_grid_view))
                 .onChildView(withText("Kittens 3"))
-                .check(matches(isCompletelyDisplayed()))
                 .perform(click());
     }
 

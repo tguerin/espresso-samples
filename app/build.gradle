@@ -55,6 +55,7 @@ android {
         versionCode versionMajor * 100000 + versionMinor * 10000 + versionPatch * 1000 + getBuildNumber()
         versionName "${buildTime()} v${versionMajor}.${versionMinor}.${versionPatch}"
 
+        testApplicationId "com.devoxx.android.samples.test"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
