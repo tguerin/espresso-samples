@@ -6,9 +6,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.devoxx.espresso.samples.model.Picture;
 import com.devoxx.espresso.samples.R;
-import com.squareup.picasso.Picasso;
+import com.devoxx.espresso.samples.model.Picture;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -33,7 +32,7 @@ public class PictureItemView extends FrameLayout {
     }
 
     public void bind(Picture picture) {
-        Picasso.with(getContext()).load(picture.drawableRes).fit().centerCrop().into(pictureContent);
+        pictureContent.setImageResource(picture.drawableRes);
         pictureTitle.setText(picture.title);
     }
 }
