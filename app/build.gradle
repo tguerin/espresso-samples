@@ -1,0 +1,107 @@
+import java.text.SimpleDateFormat
+
+buildscript {
+    repositories {
+        jcenter()
+        maven { url 'https://maven.fabric.io/public' }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.0.0'
+        classpath 'com.stanfy.spoon:spoon-gradle-plugin:0.14.1'
+        classpath 'com.github.jcandksolutions.gradle:android-unit-test:2.0.2'
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+
+
+def versionMajor = 0
+def versionMinor = 1
+def versionPatch = 0
+
+def buildTime() {
+    def df = new SimpleDateFormat("dd-MM-yyyy HH:mm")
+    df.setTimeZone(TimeZone.getTimeZone("UTC+01:00"))
+    return df.format(new Date())
+}
+
+def getBuildNumber() {
+    return System.getenv("BUILD_NUMBER") as Integer ?: 0
+}
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
+
+    defaultConfig {
+        applicationId "com.devoxx.android.samples"
+        minSdkVersion 14
+        targetSdkVersion 21
+
+        versionCode versionMajor * 100000 + versionMinor * 10000 + versionPatch * 1000 + getBuildNumber()
+        versionName "${buildTime()} v${versionMajor}.${versionMinor}.${versionPatch}"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    productFlavors {
+        defaultFlavor {
+
+        }
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile('com.squareup.retrofit:retrofit:1.9.0') {
+        exclude group: 'com.google.code.gson', module: 'gson'
+    }
+
+    compile(
+            'com.android.support:appcompat-v7:21.0.3',
+            'com.android.support:support-v4:21.0.3',
+            'com.squareup.okhttp:okhttp-urlconnection:2.2.0',
+            'com.squareup.okhttp:okhttp:2.2.0',
+            'com.squareup.picasso:picasso:+',
+            'de.greenrobot:eventbus:2.4.0',
+            'com.jakewharton:butterknife:6.0.0',
+            'com.fasterxml.jackson.core:jackson-databind:2.5.0',
+            'com.fasterxml.jackson.core:jackson-core:2.5.0',
+            'com.fasterxml.jackson.core:jackson-annotations:2.5.0',
+            'com.jakewharton.timber:timber:2.5.0'
+    )
+    compile('com.crashlytics.sdk.android:crashlytics:2.2.0@aar') {
+        transitive = true;
+    }
+}
+
+apply from: 'config/unit-test.gradle'
+apply from: 'config/sonar.gradle'
+apply from: 'config/spoon.gradle'

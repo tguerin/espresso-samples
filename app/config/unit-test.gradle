@@ -1,0 +1,17 @@
+apply plugin: 'android-unit-test'
+
+androidUnitTest {
+    downloadDependenciesSources true
+    downloadDependenciesJavadoc true
+    downloadTestDependenciesSources true
+    downloadTestDependenciesJavadoc true
+}
+
+dependencies {
+    testCompile (
+            'junit:junit:4.10',
+            'org.robolectric:robolectric:2.4',
+            'org.mockito:mockito-core:1.9.5',
+            'com.squareup.assertj:assertj-android:+'
+    )
+}

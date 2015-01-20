@@ -1,0 +1,20 @@
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">#3F51B5</item>
+        <item name="colorPrimaryDark">#303F9F</item>
+        <item name="colorAccent">#FF4081</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/default_list_selector</item>
+    </style>
+
+    <style name="TransparentTheme" parent="AppTheme">
+        <item name="windowActionBarOverlay">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="actionBarStyle">@style/Widget.ActionBar.Transparent</item>
+    </style>
+
+    <style name="Widget.ActionBar.Transparent" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="displayOptions">homeAsUp</item>
+    </style>
+
+</resources>

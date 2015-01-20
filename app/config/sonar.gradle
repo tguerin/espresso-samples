@@ -1,0 +1,39 @@
+apply plugin: 'sonar-runner'
+
+configurations {
+    codeCoverage
+    codeCoverageAnt
+}
+
+dependencies {
+    codeCoverage 'org.jacoco:org.jacoco.agent:0.7.2.201409121644:runtime@jar'
+    codeCoverageAnt 'org.jacoco:org.jacoco.ant:0.7.2.201409121644'
+}
+
+sonarRunner {
+    sonarProperties {
+        def testProjectBuildDir = project(':app').buildDir
+        def androidProjectDir = project(':app').projectDir
+        property 'sonar.core.codeCoveragePlugin', 'jacoco'
+        property 'sonar.jdbc.username', 'sonar'
+        property 'sonar.jdbc.password', 'sonar'
+        property 'sonar.junit.reportsPath', "$testProjectBuildDir/test-results"
+        property 'sonar.jacoco.reportPath', "$testProjectBuildDir/coverage-results/jacoco.exec"
+        properties["sonar.projectBaseDir"] = testProjectBuildDir
+        properties["sonar.sources"] = project(':app').android.sourceSets.main.java.srcDirs
+        properties["sonar.tests"] = "$androidProjectDir/src/test/java"
+        properties["sonar.binaries"] = "${project(':app').buildDir}/intermediates/classes/defaultFlavor/debug"
+        // We can't test ActionBarActivity for the moment
+        properties["sonar.jacoco.excludes"] = ["android/**/*.java"]
+    }
+}
+
+
+tasks.withType(Test) {
+    jvmArgs "-javaagent:${configurations.codeCoverage.asPath}=destfile=${project.buildDir.path}/coverage-results/jacoco.exec,sessionid=HSServ,append=false",
+            '-Djacoco=true',
+            '-Xms1024m',
+            '-Xmx1024m',
+            '-XX:MaxPermSize=512m',
+            '-noverify'
+}
