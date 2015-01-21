@@ -78,6 +78,9 @@ tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
 
+ext.betaDistributionGroupAliases="axa-testers"
+ext.betaDistributionReleaseNotes="Release Notes for this build."
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
