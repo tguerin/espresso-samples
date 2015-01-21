@@ -6,6 +6,7 @@
     <com.devoxx.espresso.samples.ui.widget.SquareImageView
         android:id="@+id/picture_content"
         android:layout_width="match_parent"
+        android:scaleType="fitXY"
         android:transitionName="@string/transition_from_grid_to_detail"
         android:layout_height="300dp" />
 
